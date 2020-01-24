@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Question</th>
+      <th>Votes</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+      <td>{{ question.name }}</td>
+      <td>{{ question.yes }}</td>
+      <td>
+          <form method = "POST" action = " {{ url_for('questions_vote', question_id = question.id) }}">
+            <input type = "submit" value = "Vote yes!"/>
+          </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
