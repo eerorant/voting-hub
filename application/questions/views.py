@@ -1,6 +1,7 @@
 from application import app, db
 from flask import render_template, request, redirect, url_for
 from application.questions.models import Question
+from application.questions.forms import QuestionForm
 
 @app.route("/questions/<question_id>/", methods=["POST"])
 def questions_vote(question_id):
@@ -18,13 +19,17 @@ def questions_index():
 
 @app.route("/questions/new/")
 def questions_form():
-    return render_template("questions/new.html")
+    return render_template("questions/new.html", form = QuestionForm())
 
 @app.route("/questions/", methods=["POST"])
 def questions_create():
-    t = Question(request.form.get("name"))
+    form = QuestionForm(request.form)
 
-    db.session().add(t)
+    if not form.validate():
+        return render_template("questions/new.html", form = form)
+    q = Question(form.name.data)
+
+    db.session().add(q)
     db.session().commit()
 
     return redirect(url_for("questions_index"))
