@@ -26,7 +26,7 @@ def questions_create():
     form = QuestionForm(request.form)
 
     if not form.validate():
-        return render_template("questions/new.html", form = form)
+        return render_template("questions/new.html", form = form, error = "Question must be at least one character long.")
     q = Question(form.name.data)
 
     db.session().add(q)
