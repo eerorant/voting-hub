@@ -10,5 +10,5 @@ Right now the rooms are empty and all the questions are still on their own globa
 
 ### Database diagram
 
-![Database diagram](https://raw.githubusercontent.com/eerorant/voting-hub/master/documentation/diagram.jpg)
+![Database diagram](https://raw.githubusercontent.com/eerorant/voting-hub/master/documentation/diagram.png)
 
