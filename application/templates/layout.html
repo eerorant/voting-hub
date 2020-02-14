@@ -8,13 +8,14 @@
   <body>
     {% if current_user.is_authenticated %}
     <p>
-      Signed in as {{ current_user.username }}. <a href="{{ url_for('auth_logout') }}" Log out</a>
+      Signed in as {{ current_user.username }}. <a href="{{ url_for('auth_logout') }}"> Log out</a>
     </p>
     {% else %}
     <a href = "{{ url_for('auth_login') }}">Log in</a>
-    <a href = "{{ url_for('auth_create') }}">Register</a>
+    <a href = "{{ url_for('auth_form') }}">Register</a>
     {% endif %}
     <ul>
+      <li><a href="{{ url_for('rooms_form') }}">Create room</a></li>
       <li><a href="{{ url_for('questions_index') }}">List questions</a></li>
       <li><a href="{{ url_for('questions_form') }}">Add a question</a></li>
     </ul>

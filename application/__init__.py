@@ -11,12 +11,22 @@ db = SQLAlchemy(app)
 
 # my app
 from application import views
+from application import models
 
 from application.questions import models
 from application.questions import views
 
 from application.auth import models
 from application.auth import views
+
+from application.rooms import models
+from application.rooms import views
+
+from application.authrooms import models
+from application.authquestions import models
+
+
+
 
 # log in
 from application.auth.models import User

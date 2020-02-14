@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 from application import app, db
 from application.auth.models import User
@@ -26,19 +26,23 @@ def auth_logout():
     logout_user()
     return redirect(url_for("index"))
 
-@app.route("/auth/new/", methods = ["GET"])
+@app.route("/auth/new/")
 def auth_form():
     return render_template("auth/new.html", form = RegistrationForm())
 
-@app.route("/auth/new", methods = ["POST"])
+@app.route("/auth/", methods = ["POST"])
 def auth_create():
     form = RegistrationForm(request.form)
     user = User.query.filter_by(username=form.username.data).first()
     if user:
         return render_template("auth/new.html", form = form, error = "Username is already in use")
-    r = User(form.username.data, form.password.data)
+    if not form.validate():
+        return render_template("auth/new.html", form = form)
+    
 
-    db.session().add(r)
+    user = User(form.username.data, form.password.data)
+
+    db.session().add(user)
     db.session().commit()
 
     return "hello world"

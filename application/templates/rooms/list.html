@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Question</th>
+      <th>Yes</th>
+      <th>No</th>
+    </tr>
+    <tr>
+      
+    </tr>
+    {% for question in questions %}
+    <tr>
+      <td>{{ question.name }}</td>
+      <td>{{ question.yes }}</td>
+      <td>{{ question.no }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
