@@ -1,6 +1,7 @@
 from application import app, db
 from flask import render_template, request, redirect, url_for
 from application.rooms.forms import RoomForm
+from application.rooms.forms import QuestionForm
 from application.rooms.models import Room
 from application.questions.models import Question
 from flask_login import login_required
@@ -13,7 +14,19 @@ def rooms_index(roomID):
     if room:
         return render_template("rooms/list.html", questions = Question.query.filter_by(room_id=roomID))
 
-@app.route("/rooms/<roomID>/new_question/")
+@app.route("/rooms/<roomID>/", methods=["POST"])
+def rooms_add(roomID):
+    form = QuestionForm(request.form)
+
+    if not form.validate():
+        return render_template("rooms/<roomID>.html", form = form)
+    question = Question(name = form.name.data, room_id = roomID)
+
+    db.session().add(question)
+    db.session().commit()
+
+    return redirect(url_for("questions_index"))
+
     
 
 @app.route("/rooms/new/")

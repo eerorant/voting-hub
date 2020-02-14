@@ -1,21 +1,56 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<form method="POST" action="{{ url_for('rooms_add') }}">
   <table>
     <tr>
-      <th>Question</th>
-      <th>Yes</th>
-      <th>No</th>
+      <td>
+        {{ form.name.label }}
+      </td>
+      <td>
+        {{ form.name }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
     </tr>
     <tr>
-      
+      <td colspan="2">
+        <input type="submit" value="Add a new question" />
+      </td>
     </tr>
-    {% for question in questions %}
-    <tr>
-      <td>{{ question.name }}</td>
-      <td>{{ question.yes }}</td>
-      <td>{{ question.no }}</td>
-    </tr>
-    {% endfor %}
   </table>
+</form>
+
+<table>
+  <tr>
+    <th>Question</th>
+    <th>Yes</th>
+    <th>No</th>
+  </tr>
+  <tr>
+
+  </tr>
+  {% for question in questions %}
+  <tr>
+    <td>{{ question.name }}</td>
+    <td>{{ question.yes }}</td>
+    <td>{{ question.no }}</td>
+    <td>
+      <form method="POST" action=" {{ url_for('questions_vote_yes', question_id = question.id) }}">
+        <input type="submit" value="Vote yes" />
+      </form>
+    </td>
+    <td>
+      <form method="POST" action=" {{ url_for('questions_vote_no', question_id = question.id) }}">
+        <input type="submit" value="Vote no" />
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}
