@@ -40,16 +40,7 @@
     <td>{{ question.name }}</td>
     <td>{{ question.yes }}</td>
     <td>{{ question.no }}</td>
-    <td>
-      <form method="POST" action=" {{ url_for('questions_vote_yes', question_id = question.id) }}">
-        <input type="submit" value="Vote yes" />
-      </form>
-    </td>
-    <td>
-      <form method="POST" action=" {{ url_for('questions_vote_no', question_id = question.id) }}">
-        <input type="submit" value="Vote no" />
-      </form>
-    </td>
+    
   </tr>
   {% endfor %}
 </table>
