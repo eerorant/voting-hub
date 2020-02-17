@@ -15,11 +15,10 @@ else:
 db = SQLAlchemy(app)
 
 # my app
-from application import views
 from application import models
+from application import views
 
 from application.questions import models
-from application.questions import views
 
 from application.auth import models
 from application.auth import views

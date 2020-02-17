@@ -8,26 +8,47 @@ from flask_login import login_required
 
 
 
-@app.route("/rooms/<roomID>", methods=["GET"])
-def rooms_index(roomID):
-    room = Room.query.filter_by(id=roomID).first()
+@app.route("/rooms/<room_id>/", methods=["GET"])
+def rooms_index(room_id):
+    room = Room.query.filter_by(id=room_id).first()
     if room:
-        return render_template("rooms/list.html", questions = Question.query.filter_by(room_id=roomID))
-
-@app.route("/rooms/<roomID>/", methods=["POST"])
-def rooms_add(roomID):
+        questionForm = QuestionForm(request.form)
+        return render_template("rooms/list.html", room_id=room_id, form=questionForm, questions = Question.get_questions(room_id))
+    else:
+        return "No such room"
+#questions = Question.query.filter_by(room_id=room_id)
+ 
+@app.route("/rooms/<room_id>/", methods=["POST"])
+@login_required
+def rooms_add(room_id):
     form = QuestionForm(request.form)
 
     if not form.validate():
-        return render_template("rooms/<roomID>.html", form = form)
-    question = Question(name = form.name.data, room_id = roomID)
+        return render_template("rooms/list.html", form=form)
+    question = Question(name = form.name.data, room_id=room_id)
 
     db.session().add(question)
     db.session().commit()
 
-    return redirect(url_for("questions_index"))
+    return redirect(url_for("rooms_index", room_id=room_id))
 
-    
+@app.route("/rooms/<room_id>/<question_id>/yes", methods=["POST"])
+@login_required
+def rooms_vote_yes(room_id, question_id):
+    t = Question.query.filter_by(id=question_id, room_id=room_id).first()
+    t.yes = t.yes + 1
+    db.session().commit()
+    return redirect(url_for("rooms_index", room_id=room_id))
+
+@app.route("/rooms/<room_id>/<question_id>/no", methods=["POST"])
+@login_required
+def rooms_vote_no(room_id, question_id):
+    t = Question.query.filter_by(id=question_id, room_id=room_id).first()
+    t.no = t.no + 1
+    db.session().commit()
+
+    return redirect(url_for("rooms_index", room_id=room_id))
+
 
 @app.route("/rooms/new/")
 @login_required

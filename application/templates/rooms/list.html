@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<form method="POST" action="{{ url_for('rooms_add') }}">
+
+<form method="POST" action="{{ url_for('rooms_add', room_id=room_id) }}">
   <table>
     <tr>
       <td>
@@ -40,7 +41,17 @@
     <td>{{ question.name }}</td>
     <td>{{ question.yes }}</td>
     <td>{{ question.no }}</td>
-    
+    <td>
+      <form method="POST" action="{{ url_for('rooms_vote_yes', room_id = room_id, question_id=question.id) }}">
+        <input type="submit" value="Vote yes" />
+      </form>
+    </td>
+    <td>
+      <form method="POST" action="{{ url_for('rooms_vote_no', room_id = room_id, question_id=question.id) }}">
+        <input type="submit" value="Vote no" />
+      </form>
+    </td>
+
   </tr>
   {% endfor %}
 </table>
