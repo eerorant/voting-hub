@@ -6,7 +6,7 @@ A web app to host rooms, where users can send in questions. Users then answer th
 [Voting hub](https://tsoha-votinghub.herokuapp.com/)
 
 ### Using the website
-Right now the rooms are empty and all the questions are still on their own global page. This will change, every room will have their own, unique set of questions and admins. You can use the username "john" and password "pass" or create your own user.
+Right now the rooms are empty and all the questions are still on their own global page. This will change, every room will have their own, unique set of questions and admins. You can use the username "john" and password "pass" or create your own user. Go to /rooms/<number> to go a room. 
 
 ### Database diagram
 
