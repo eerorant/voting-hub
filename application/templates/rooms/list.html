@@ -5,6 +5,9 @@
 <form method="POST" action="{{ url_for('rooms_add', room_id=room_id) }}">
   <table>
     <tr>
+      <h1>{{ room_name }}</h1>
+    </tr>
+    <tr>
       <td>
         {{ form.name.label }}
       </td>
@@ -17,6 +20,9 @@
           <li>{{ error }}</li>
           {% endfor %}
         </ul>
+      </td>
+      <td>
+        {{ error }}
       </td>
     </tr>
     <tr>
@@ -34,7 +40,6 @@
     <th>No</th>
   </tr>
   <tr>
-
   </tr>
   {% for question in questions %}
   <tr>

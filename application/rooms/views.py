@@ -13,10 +13,9 @@ def rooms_index(room_id):
     room = Room.query.filter_by(id=room_id).first()
     if room:
         questionForm = QuestionForm(request.form)
-        return render_template("rooms/list.html", room_id=room_id, form=questionForm, questions = Question.get_questions(room_id))
+        return render_template("rooms/list.html", room_id=room_id, room_name=Room.get_room_name(room_id), form=questionForm, questions=Question.get_questions(room_id))
     else:
         return "No such room"
-#questions = Question.query.filter_by(room_id=room_id)
  
 @app.route("/rooms/<room_id>/", methods=["POST"])
 @login_required
@@ -55,13 +54,13 @@ def rooms_vote_no(room_id, question_id):
 def rooms_form():
     return render_template("rooms/new.html", form = RoomForm())
 
-@app.route("/rooms/", methods=["POST"])
+@app.route("/rooms/new", methods=["POST"])
 @login_required
 def rooms_create():
     form = RoomForm(request.form)
     room = Room.query.filter_by(name=form.name.data).first()
     if room:
-        return render_template("rooms/new.html", form = form, error = "Room name is already in use")
+        return render_template("rooms/new.html", form = form)
     if not form.validate():
         return render_template("rooms/new.html", form = form)
     
@@ -70,5 +69,4 @@ def rooms_create():
 
     db.session().add(room)
     db.session().commit()
-
-    return "hello world"
+    return redirect(url_for("rooms_index", room_id=Room.get_room_id(form.name.data)))

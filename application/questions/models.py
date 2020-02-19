@@ -27,3 +27,4 @@ class Question(Base):
             response.append({"id":row[0], "name":row[1], "yes":row[2], "no":row[3]})
 
         return response
+    
