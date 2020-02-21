@@ -2,9 +2,9 @@ from application import db
 from application.models import Base
 from sqlalchemy.sql import text
 
-class Room(Base):
+class Room(db.Model):
     __tablename__ = "room"
-    name = db.Column (db.String(144), nullable=False)
+    name = db.Column (db.String(144), primary_key=True, nullable=False)
 
     questions = db.relationship("Question", backref = 'room', lazy = True)
     authrooms = db.relationship("Authroom", backref = 'room', lazy = True)
@@ -12,8 +12,6 @@ class Room(Base):
     def __init__(self, name):
         self.name = name
 
-    def get_id(self):
-        return self.id
   
     def is_active(self):
         return True
@@ -24,6 +22,7 @@ class Room(Base):
     def is_authenticated(self):
         return True
     
+    """
     #Returns the name of the room as a string
     @staticmethod
     def get_room_name(id):
@@ -48,3 +47,4 @@ class Room(Base):
             response.append({"id":row[0]})
 
         return response[0].get("id")
+    """

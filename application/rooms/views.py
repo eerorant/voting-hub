@@ -7,53 +7,56 @@ from application.questions.models import Question
 from flask_login import login_required
 
 
-
-@app.route("/rooms/<room_id>/", methods=["GET"])
-def rooms_index(room_id):
-    room = Room.query.filter_by(id=room_id).first()
+#Index of a room
+@app.route("/rooms/<room_name>/", methods=["GET"])
+def rooms_index(room_name):
+    room = Room.query.filter_by(name=room_name).first()
     if room:
         questionForm = QuestionForm(request.form)
-        return render_template("rooms/list.html", room_id=room_id, room_name=Room.get_room_name(room_id), form=questionForm, questions=Question.get_questions(room_id))
+        return render_template("rooms/list.html", room_name=room_name, form=questionForm, questions=Question.get_questions(room_name))
     else:
         return "No such room"
  
-@app.route("/rooms/<room_id>/", methods=["POST"])
+ #Add a question to a room
+@app.route("/rooms/<room_name>/", methods=["POST"])
 @login_required
-def rooms_add(room_id):
+def rooms_add(room_name):
     form = QuestionForm(request.form)
 
     if not form.validate():
         return render_template("rooms/list.html", form=form)
-    question = Question(name = form.name.data, room_id=room_id)
+    question = Question(name = form.name.data, room_name=room_name)
 
     db.session().add(question)
     db.session().commit()
 
-    return redirect(url_for("rooms_index", room_id=room_id))
+    return redirect(url_for("rooms_index", room_name=room_name))
 
-@app.route("/rooms/<room_id>/<question_id>/yes", methods=["POST"])
+@app.route("/rooms/<room_name>/<question_id>/yes", methods=["POST"])
 @login_required
-def rooms_vote_yes(room_id, question_id):
-    t = Question.query.filter_by(id=question_id, room_id=room_id).first()
+def rooms_vote_yes(room_name, question_id):
+    t = Question.query.filter_by(id=question_id, room_name=room_name).first()
     t.yes = t.yes + 1
     db.session().commit()
-    return redirect(url_for("rooms_index", room_id=room_id))
+    return redirect(url_for("rooms_index", room_name=room_name))
 
-@app.route("/rooms/<room_id>/<question_id>/no", methods=["POST"])
+@app.route("/rooms/<room_name>/<question_id>/no", methods=["POST"])
 @login_required
-def rooms_vote_no(room_id, question_id):
-    t = Question.query.filter_by(id=question_id, room_id=room_id).first()
+def rooms_vote_no(room_name, question_id):
+    t = Question.query.filter_by(id=question_id, room_name=room_name).first()
     t.no = t.no + 1
     db.session().commit()
 
-    return redirect(url_for("rooms_index", room_id=room_id))
+    return redirect(url_for("rooms_index", room_name=room_name))
 
 
+#Create a new room, GET form
 @app.route("/rooms/new/")
 @login_required
 def rooms_form():
     return render_template("rooms/new.html", form = RoomForm())
 
+#Create a new room, POST
 @app.route("/rooms/new", methods=["POST"])
 @login_required
 def rooms_create():
@@ -69,4 +72,4 @@ def rooms_create():
 
     db.session().add(room)
     db.session().commit()
-    return redirect(url_for("rooms_index", room_id=Room.get_room_id(form.name.data)))
+    return redirect(url_for("rooms_index", room_name=form.name.data))

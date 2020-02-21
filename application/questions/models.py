@@ -8,18 +8,18 @@ class Question(Base):
     yes = db.Column(db.Integer, default = 0)
     no = db.Column(db.Integer, default = 0)
 
-    room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False, default = 1)
+    room_name = db.Column(db.Integer, db.ForeignKey('room.name'), nullable=False)
     authquestions = db.relationship("Authquestion", backref = 'question', lazy = True)
 
-    def __init__(self, name, room_id):
+    def __init__(self, name, room_name):
         self.name = name
-        self.room_id = room_id
+        self.room_name = room_name
 
     @staticmethod
-    def get_questions(room_id):
+    def get_questions(room_name):
         stmt = text("SELECT question.id, question.name, question.yes, question.no FROM question"
-                     " WHERE (question.room_id = :room_id)"
-                     " ORDER BY question.date_created").params(room_id=room_id)
+                     " WHERE (question.room_name = :room_name)"
+                     " ORDER BY question.date_created").params(room_name=room_name)
         res = db.engine.execute(stmt)
 
         response = []
