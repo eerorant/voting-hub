@@ -8,7 +8,7 @@ class Question(Base):
     yes = db.Column(db.Integer, default = 0)
     no = db.Column(db.Integer, default = 0)
 
-    room_name = db.Column(db.String, db.ForeignKey('room.name'), nullable=False)
+    room_name = db.Column(db.String(144), db.ForeignKey('room.name'), nullable=False)
     authquestions = db.relationship("Authquestion", backref = 'question', lazy = True)
 
     def __init__(self, name, room_name):
