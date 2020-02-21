@@ -44,5 +44,5 @@ def auth_create():
 
     db.session().add(user)
     db.session().commit()
-
-    return "hello world"
+    login_user(user)
+    return redirect(url_for("index"))
