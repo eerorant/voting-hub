@@ -47,15 +47,22 @@
     <td>{{ question.yes }}</td>
     <td>{{ question.no }}</td>
     <td>
-      <form method="POST" action="{{ url_for('rooms_vote_yes', room_name = room_name, question_id=question.id) }}">
+      <form method="POST" action="{{ url_for('rooms_vote_yes', room_name = room_name, question_id = question.id) }}">
         <input type="submit" value="Vote yes" />
       </form>
     </td>
     <td>
-      <form method="POST" action="{{ url_for('rooms_vote_no', room_name = room_name, question_id=question.id) }}">
+      <form method="POST" action="{{ url_for('rooms_vote_no', room_name = room_name, question_id = question.id) }}">
         <input type="submit" value="Vote no" />
       </form>
     </td>
+    {% if is_admin %}
+      <td>
+        <form method="POST" action="{{ url_for('rooms_delete_question', room_name = room_name, question_id = question.id) }}">
+          <input type="submit" value="Remove" style="color:red;"/>
+        </form>
+      </td>
+    {% endif %}
 
   </tr>
   {% endfor %}

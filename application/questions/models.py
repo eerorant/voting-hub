@@ -27,4 +27,9 @@ class Question(Base):
             response.append({"id":row[0], "name":row[1], "yes":row[2], "no":row[3]})
 
         return response
+
+    @staticmethod
+    def delete_question(question_id):
+        stmt = text("DELETE FROM question WHERE question.id=:question_id").params(question_id=question_id)
+        db.engine.execute(stmt)
     
