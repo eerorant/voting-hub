@@ -40,8 +40,8 @@ def rooms_add(room_name):
 @login_required
 def rooms_delete_question(room_name, question_id):
     if Authroom.connection_exists(auth_id=current_user.id, room_name=room_name):
-        Question.delete_question(question_id)
         Authquestion.delete_connection(auth_id=current_user.id, question_id=question_id)
+        Question.delete_question(question_id)
     return redirect(url_for("rooms_index", room_name=room_name))
 
 @app.route("/rooms/<room_name>/<question_id>/yes", methods=["POST"])
