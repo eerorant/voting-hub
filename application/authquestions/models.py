@@ -4,8 +4,8 @@ from application.questions.models import Question
 from sqlalchemy.sql import text
 
 class Authquestion(db.Model):
-    auth_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False, primary_key = True, ondelete='CASCADE')
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False, primary_key = True, ondelete='CASCADE')
+    auth_id = db.Column(db.Integer, db.ForeignKey('account.id', ondelete='CASCADE'), nullable=False, primary_key = True)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id', ondelete='CASCADE'), nullable=False, primary_key = True)
 
     def __init__(self, name):
         self.name = name
