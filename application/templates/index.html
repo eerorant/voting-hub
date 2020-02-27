@@ -1,7 +1,14 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <p>
-    
-  </p>
+<table>
+  <tr>
+      <th>Rooms</th>
+  </tr>
+  {% for room in rooms %}
+  <tr>
+      <td><a href="{{ url_for('rooms_index', room_name=room.name) }}">{{ room.name }}</a></td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}

@@ -57,13 +57,13 @@
       </form>
     </td>
     {% if is_admin %}
-      <td>
-        <form method="POST" action="{{ url_for('rooms_delete_question', room_name = room_name, question_id = question.id) }}">
-          <input type="submit" value="Remove" style="color:red;"/>
-        </form>
-      </td>
+    <td>
+      <form method="POST"
+        action="{{ url_for('rooms_delete_question', room_name = room_name, question_id = question.id) }}">
+        <input type="submit" value="Remove" style="color:red;" />
+      </form>
+    </td>
     {% endif %}
-
   </tr>
   {% endfor %}
 </table>

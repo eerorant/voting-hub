@@ -15,7 +15,9 @@ def rooms_index(room_name):
     room = Room.query.filter_by(name=room_name).first()
     if room:
         questionForm = QuestionForm(request.form)
-        is_admin = Authroom.connection_exists(auth_id=current_user.id, room_name=room_name)
+        is_admin = False
+        if current_user.is_authenticated:
+            is_admin = Authroom.connection_exists(auth_id=current_user.id, room_name=room_name)
         return render_template("rooms/room.html", room_name=room_name, form=questionForm, questions=Question.get_questions(room_name), is_admin=is_admin)
     else:
         return "No such room"

@@ -22,3 +22,14 @@ class Room(db.Model):
     def is_authenticated(self):
         return True
     
+    @staticmethod
+    def get_rooms():
+        stmt = text("SELECT room.name FROM room"
+                     " ORDER BY room.name")
+        res = db.engine.execute(stmt)
+
+        response = []
+        for row in res:
+            response.append({"name":row[0]})
+
+        return response
