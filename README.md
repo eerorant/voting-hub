@@ -6,7 +6,7 @@ A web app to host rooms, where users can send in questions. Users then answer th
 [Voting hub](https://tsoha-votinghub.herokuapp.com/)
 
 ### Using the website
-Create a room and share the url with your friends! Anyone can submit questions and vote on them. Right now you can vote as many times as you want, but that will change in the future so that one user gets one vote. You can use the username "john" and password "pass" or create your own user. Go to /rooms/*room_name* to go to a room.
+Create a room and share the url with your friends! Anyone can submit questions and vote on them. You only get one vote per question. When you create a room, you get admin rights in that room, that allow you to remove inappropriate comments. You can use the username "john" and password "pass" or create your own user. Go to /rooms/*room_name* to go to a room.
 
 ### Database diagram
 

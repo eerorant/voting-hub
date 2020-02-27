@@ -16,7 +16,7 @@ def rooms_index(room_name):
     if room:
         questionForm = QuestionForm(request.form)
         is_admin = Authroom.connection_exists(auth_id=current_user.id, room_name=room_name)
-        return render_template("rooms/list.html", room_name=room_name, form=questionForm, questions=Question.get_questions(room_name), is_admin=is_admin)
+        return render_template("rooms/room.html", room_name=room_name, form=questionForm, questions=Question.get_questions(room_name), is_admin=is_admin)
     else:
         return "No such room"
 
@@ -28,7 +28,7 @@ def rooms_add(room_name):
     form = QuestionForm(request.form)
 
     if not form.validate():
-        return render_template("rooms/list.html", form=form)
+        return render_template("rooms/room.html", form=form)
     question = Question(name = form.name.data, room_name=room_name)
 
     db.session().add(question)
