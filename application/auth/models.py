@@ -25,3 +25,15 @@ class User(Base):
     
     def is_authenticated(self):
         return True
+    
+    @staticmethod
+    def get_username(id):
+        stmt = text("SELECT account.name FROM account"
+                     " WHERE account.id = :id").params(id=id)
+        res = db.engine.execute(stmt)
+
+        response = []
+        for row in res:
+            response.append({"name":row[0]})
+
+        return response[0]["name"]

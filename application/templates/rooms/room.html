@@ -67,4 +67,11 @@
   </tr>
   {% endfor %}
 </table>
+{% if is_admin %}
+<p>
+  <form method="POST" action="{{ url_for('rooms_delete_room', room_name = room_name) }}">
+    <input type="submit" value="Remove the room" style="color:red;" />
+  </form>
+</p>
+{% endif %}
 {% endblock %}

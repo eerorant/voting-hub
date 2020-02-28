@@ -1,5 +1,4 @@
 from application import db
-from application.models import Base
 from sqlalchemy.sql import text
 
 class Room(db.Model):
@@ -12,7 +11,9 @@ class Room(db.Model):
     def __init__(self, name):
         self.name = name
 
-  
+    def get_name(self):
+        return name
+
     def is_active(self):
         return True
 
@@ -33,3 +34,9 @@ class Room(db.Model):
             response.append({"name":row[0]})
 
         return response
+
+    @staticmethod
+    def delete_room(room_name):
+        stmt = text("DELETE FROM room WHERE name = :room_name").params(room_name=room_name)
+        db.engine.execute(stmt)
+    

@@ -8,7 +8,7 @@ class Question(Base):
     yes = db.Column(db.Integer, default = 0)
     no = db.Column(db.Integer, default = 0)
 
-    room_name = db.Column(db.String(144), db.ForeignKey('room.name'), nullable=False)
+    room_name = db.Column(db.String(144), db.ForeignKey('room.name', ondelete='CASCADE'), nullable=False)
     authquestions = db.relationship("Authquestion", backref = 'question', lazy = True)
 
     def __init__(self, name, room_name):
@@ -33,3 +33,7 @@ class Question(Base):
         stmt = text("DELETE FROM question WHERE question.id=:question_id").params(question_id=question_id)
         db.engine.execute(stmt)
     
+    @staticmethod
+    def delete_questions_from_room(room_name):
+        stmt = text("DELETE FROM question WHERE room_name=:room_name").params(room_name=room_name)
+        db.engine.execute(stmt)

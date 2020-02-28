@@ -38,6 +38,7 @@ def rooms_add(room_name):
 
     return redirect(url_for("rooms_index", room_name=room_name))
 
+#Delete a question from a room
 @app.route("/rooms/<room_name>/<question_id>/delete", methods=["POST"])
 @login_required
 def rooms_delete_question(room_name, question_id):
@@ -95,3 +96,12 @@ def rooms_create():
 
     db.session().commit()
     return redirect(url_for("rooms_index", room_name=form.name.data))
+
+#Delete room
+@app.route("/rooms/<room_name>/delete", methods=["POST"])
+@login_required
+def rooms_delete_room(room_name):
+    Authroom.delete_connection(auth_id=current_user.id, room_name=room_name)
+    Question.delete_questions_from_room(room_name=room_name)
+    Room.delete_room(room_name)
+    return redirect(url_for("index"))
