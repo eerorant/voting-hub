@@ -37,3 +37,15 @@ class Question(Base):
     def delete_questions_from_room(room_name):
         stmt = text("DELETE FROM question WHERE room_name=:room_name").params(room_name=room_name)
         db.engine.execute(stmt)
+    
+    @staticmethod
+    def get_count():
+        stmt = text("SELECT count(*) FROM question")
+        res = db.engine.execute(stmt)
+        
+        #This is stupid but it works
+        response = []
+        for row in res:
+            response.append({"count":row[0]})
+        return response[0]["count"]
+    
